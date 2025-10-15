@@ -1,60 +1,28 @@
-# Knowledge Graph-Enhanced Retrieval Augmented Generation for Low-Latency Carbon Capture Research
+# Knowledge Graph RAG Pipeline
 
-A sophisticated Knowledge Graph-based Question Answering (QA) system that extracts information from research papers, builds knowledge graphs, generates Q&A pairs, and evaluates performance using comprehensive metrics.
+A comprehensive pipeline for building, visualizing, and querying knowledge graphs from PDF documents with a RAG-powered chatbot interface.
 
 ## 🚀 Features
 
-- **PDF Text Extraction**: Extracts and chunks text from research papers with section-aware processing
-- **Knowledge Graph Construction**: Builds entity-relationship graphs using Google Gemini AI
-- **Automated Q&A Generation**: Creates both short (20 words) and long (60-90 words) Q&A pairs
-- **Advanced Retrieval**: Multi-stage retrieval with semantic search and graph expansion
-- **Comprehensive Evaluation**: Dual-phase evaluation (Pre-RAG and Post-RAG) with 7 metrics
-- **Interactive Visualization**: HTML-based knowledge graph visualization
+- **Automated Text Extraction**: Extract and process text from PDF documents
+- **Knowledge Graph Construction**: Build structured knowledge graphs with entities and relationships
+- **Interactive Visualization**: Explore the knowledge graph with an interactive web interface
+- **QA Generation**: Automatically generate question-answer pairs from the knowledge base
+- **RAG Chatbot**: Query the knowledge graph using a conversational AI interface
+- **Performance Evaluation**: Comprehensive metrics for pipeline quality assessment
 
-## 📋 Table of Contents
+## 📊 Screenshots
 
-- [Architecture](#architecture)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Pipeline Overview](#pipeline-overview)
-- [Evaluation Metrics](#evaluation-metrics)
-- [Output Files](#output-files)
-- [Project Structure](#project-structure)
-- [Documentation](#documentation)
+### Knowledge Graph Visualization
+![Knowledge Graph](Images/knowledge_graph.png)
 
-## 🏗️ Architecture
+### Chatbot Interface
+![Chatbot UI](Images/chatbot_ui.png)
 
-```
-┌─────────────────┐
-│  PDF Documents  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────────┐
-│  1. Text Extraction     │  → extracted_texts.json
-│     (extract_text.py)   │  → extracted_texts_chunked.json
-└────────┬────────────────┘
-         │
-         ▼
-┌─────────────────────────┐
-│  2. Knowledge Graph     │  → knowledge_graph.json
-│     Build (build_graph) │  → knowledge_graph_visualization.html
-└────────┬────────────────┘
-         │
-         ▼
-┌─────────────────────────┐
-│  3. Q&A Generation      │  → qa_short.json
-│     (generate_qa.py)    │  → qa_long.json
-└────────┬────────────────┘
-         │
-         ▼
-┌─────────────────────────┐
-│  4. Evaluation          │  → evaluations.json
-│     (evaluate.py)       │  → evaluation_details.json
-└─────────────────────────┘
-```
+### Sample Conversation
+![Chatbot Conversation](Images/chatbot_conversation.png)
 
-## 🔧 Installation
+## 🛠️ Installation
 
 ### Prerequisites
 
@@ -63,27 +31,30 @@ A sophisticated Knowledge Graph-based Question Answering (QA) system that extrac
 
 ### Setup
 
-1. Clone the repository:
+1. **Clone the repository**
+
 ```bash
 git clone https://github.com/naveensankar5905/Knowledge-Graph-Enhanced-Retrieval-Augmented-Generation-for-Low-Latency-Carbon-Capture-Research.git
 cd Knowledge-Graph-Enhanced-Retrieval-Augmented-Generation-for-Low-Latency-Carbon-Capture-Research
 ```
 
-2. Install required packages:
+2. **Install dependencies**
+
 ```bash
-pip install pymupdf google-generativeai python-dotenv sentence-transformers scikit-learn rouge-score nltk numpy
+pip install -r requirements.txt
 ```
 
-3. Create a `.env` file with your Gemini API key:
+3. **Configure environment**
+
+- Copy `.env.example` to `.env`
+- Add your Gemini API key:
 ```
 GEMINI_API_KEY=your_api_key_here
 ```
 
-4. Create a `raw/` folder and place your PDF research papers:
-```bash
-mkdir raw
-# Copy your PDF files to the raw/ folder
-```
+4. **Prepare your data**
+
+- Place PDF files in the `raw/` folder
 
 ## 🎯 Usage
 
@@ -97,159 +68,124 @@ python main.py
 
 This will:
 1. Extract text from PDFs
-2. Build knowledge graph
-3. Generate Q&A pairs
-4. Evaluate performance
+2. Build the knowledge graph
+3. Generate QA pairs
+4. Evaluate the pipeline
+5. Create visualizations
 
 ### Run Individual Steps
 
+**Extract Text:**
 ```bash
-# Step 1: Extract text from PDFs
 python extract_text.py
+```
 
-# Step 2: Build knowledge graph
+**Build Knowledge Graph:**
+```bash
 python build_graph.py
+```
 
-# Step 3: Generate Q&A pairs
+**Generate Q&A Pairs:**
+```bash
 python generate_qa.py
+```
 
-# Step 4: Evaluate system performance
+**Evaluate Pipeline:**
+```bash
 python evaluate.py
 ```
 
-## 🔄 Pipeline Overview
+**Create Visualization:**
+```bash
+python create_kg_visualization.py
+python open_visualization.py
+```
 
-### 1. Text Extraction (`extract_text.py`)
-- Extracts text from PDF documents
-- Performs section-aware chunking (500-word chunks)
-- Preserves document structure and metadata
+### Launch Chatbot
 
-### 2. Knowledge Graph Building (`build_graph.py`)
-- Extracts entities and relationships using Gemini AI
-- Constructs entity-relationship graph
-- Generates interactive HTML visualization
+Start the RAG-powered chatbot interface:
 
-### 3. Q&A Generation (`generate_qa.py`)
-- Creates diverse question types (factual, comparative, analytical)
-- Generates both short and long answers
-- Covers multiple sections per document
+```bash
+python rag_chatbot.py
+```
 
-### 4. Evaluation (`evaluate.py`)
-- **Pre-RAG**: Evaluates retrieval performance
-- **Post-RAG**: Evaluates generation quality
-- Uses 7 comprehensive metrics
+Then open your browser to `http://localhost:5000`
 
-## 📊 Evaluation Metrics
-
-The system uses 7 complementary metrics to assess performance:
-
-1. **Semantic Similarity** (0.0-1.0): Measures conceptual similarity using embeddings
-2. **ROUGE-1 F1**: Measures word-level overlap
-3. **Precision**: Ratio of relevant content retrieved
-4. **Recall**: Coverage of reference answer
-5. **F1 Score**: Harmonic mean of precision and recall
-6. **BLEU Score**: N-gram overlap quality
-7. **Exact Match**: Binary exact match score
-
-### Two-Phase Evaluation
-
-- **Pre-RAG (Retrieval)**: Compares retrieved chunks against reference answers
-- **Post-RAG (Generation)**: Compares LLM-generated answers against reference answers
-
-## 📁 Output Files
-
-All output files are saved in the `output/` directory:
-
-| File | Description |
-|------|-------------|
-| `extracted_texts.json` | Raw extracted text from PDFs |
-| `extracted_texts_chunked.json` | Chunked text with metadata |
-| `knowledge_graph.json` | Entity-relationship graph structure |
-| `knowledge_graph_visualization.html` | Interactive graph visualization |
-| `qa_short.json` | Short Q&A pairs (max 20 words) |
-| `qa_long.json` | Long Q&A pairs (60-90 words) |
-| `evaluations.json` | Aggregate evaluation metrics |
-| `evaluation_details.json` | Per-question detailed results |
-
-## 📂 Project Structure
+## 📁 Project Structure
 
 ```
 .
-├── main.py                          # Pipeline orchestrator
-├── extract_text.py                  # PDF text extraction
-├── build_graph.py                   # Knowledge graph construction
-├── generate_qa.py                   # Q&A pair generation
-├── evaluate.py                      # Performance evaluation
-├── EVALUATION_DOCUMENTATION.txt     # Detailed evaluation docs
-├── .env                            # API keys (not in repo)
-├── .gitignore                      # Git ignore rules
-├── raw/                            # Input PDF files
-│   └── *.pdf
-└── output/                         # Generated outputs
-    ├── extracted_texts.json
-    ├── extracted_texts_chunked.json
-    ├── knowledge_graph.json
-    ├── knowledge_graph_visualization.html
-    ├── qa_short.json
-    ├── qa_long.json
-    ├── evaluations.json
-    └── evaluation_details.json
+├── raw/                          # Input PDF files
+├── output/                       # Generated outputs
+│   ├── extracted_texts.json
+│   ├── knowledge_graph.json
+│   ├── qa_short.json
+│   ├── qa_long.json
+│   ├── evaluations.json
+│   └── knowledge_graph_visualization.html
+├── templates/                    # HTML templates for chatbot
+├── Images/                       # Screenshots and diagrams
+├── main.py                       # Main pipeline runner
+├── extract_text.py               # Text extraction module
+├── build_graph.py                # Knowledge graph builder
+├── generate_qa.py                # QA pair generator
+├── evaluate.py                   # Evaluation module
+├── rag_chatbot.py                # Chatbot application
+├── create_kg_visualization.py    # Visualization generator
+├── requirements.txt              # Python dependencies
+└── .env                          # Environment configuration
 ```
 
-## 📖 Documentation
+## 🔧 Configuration
 
-For detailed documentation on the evaluation system, see:
-- [`EVALUATION_DOCUMENTATION.txt`](EVALUATION_DOCUMENTATION.txt) - Comprehensive evaluation guide
+### API Settings
 
-## 🔍 Key Features
+Configure the Gemini API in `.env`:
 
-### Advanced Retrieval System
-- **Multi-stage retrieval**: Entity matching → Semantic search → Graph expansion
-- **Graph expansion**: Traverses knowledge graph edges for related information
-- **Semantic embeddings**: Uses SentenceTransformer for meaning-based retrieval
+- **GEMINI_API_KEY**: Your Google Gemini API key
 
-### LLM-Powered Generation
-- **Model**: Google Gemini 2.0 Flash
-- **Context-aware**: Generates answers based on retrieved chunks
-- **Length control**: Separate strategies for short vs long answers
+### Pipeline Parameters
 
-### Comprehensive Evaluation
-- Evaluates both retrieval and generation
-- Multiple metrics for holistic assessment
-- Per-question detailed analysis for debugging
+Modify parameters in individual scripts:
 
-## 🛠️ Technologies Used
+- **Chunk size**: Text segmentation size
+- **Temperature**: LLM creativity level
+- **Top-k retrieval**: Number of chunks to retrieve
 
-- **Python 3.8+**
-- **PyMuPDF**: PDF text extraction
-- **Google Gemini AI**: Entity extraction and answer generation
-- **SentenceTransformers**: Semantic embeddings
-- **scikit-learn**: Similarity computations
-- **ROUGE & NLTK**: Evaluation metrics
-- **NumPy**: Numerical operations
+## 📈 Output Files
 
-## 📝 Configuration
+- `extracted_texts.json`: Extracted and chunked text from PDFs
+- `knowledge_graph.json`: Structured knowledge graph data
+- `qa_short.json`: Short-form question-answer pairs
+- `qa_long.json`: Long-form question-answer pairs
+- `evaluations.json`: Pipeline evaluation metrics
+- `knowledge_graph_visualization.html`: Interactive graph visualization
 
-Key parameters can be adjusted in `evaluate.py`:
+## 🧪 Evaluation Metrics
 
-```python
-# Retrieval settings
-top_k = 5                    # Number of chunks to retrieve
-similarity_threshold = 0.3   # Minimum relevance score
-use_graph_expansion = True   # Enable graph traversal
-max_hops = 1                 # Graph expansion depth
+The pipeline evaluates:
 
-# Generation settings
-temperature = 0.2            # LLM randomness (lower = more deterministic)
-```
+- **Semantic Similarity**: Cosine similarity between generated and expected answers
+- **ROUGE Scores**: Text overlap metrics (ROUGE-1, ROUGE-2, ROUGE-L)
+- **Entity Extraction**: Quality of entity and relationship identification
+- **Graph Structure**: Connectivity and completeness of the knowledge graph
+
+## 🤖 Technologies Used
+
+- **LLM**: Google Gemini (gemini-1.5-flash)
+- **Embeddings**: Sentence-Transformers (all-MiniLM-L6-v2)
+- **Graph Library**: NetworkX
+- **Web Framework**: Flask
+- **NLP**: NLTK, ROUGE
+- **PDF Processing**: PyPDF2
+
+## 📝 License
+
+This project is licensed under the MIT License.
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 👤 Author
 
@@ -257,16 +193,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - GitHub: [@naveensankar5905](https://github.com/naveensankar5905)
 
-## 🙏 Acknowledgments
-
-- Google Gemini API for entity extraction and answer generation
-- Research community for carbon capture domain knowledge
-- Open-source libraries that made this project possible
-
 ## 📧 Contact
 
-For questions or feedback, please open an issue on GitHub.
+For questions or support, please open an issue on GitHub.
 
 ---
+
+**Note**: Ensure you have a valid Google Gemini API key before running the pipeline. The system requires active internet connection for API calls.
 
 ⭐ **Star this repository if you find it helpful!**
