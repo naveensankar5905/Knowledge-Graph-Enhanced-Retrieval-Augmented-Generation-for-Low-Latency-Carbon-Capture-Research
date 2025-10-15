@@ -14,13 +14,16 @@ A comprehensive pipeline for building, visualizing, and querying knowledge graph
 ## 📊 Screenshots
 
 ### Knowledge Graph Visualization
-![Knowledge Graph](Images/knowledge_graph.png)
+![Knowledge Graph](Images/knowledge_graph_viz.png)
 
 ### Chatbot Interface
 ![Chatbot UI](Images/chatbot_ui.png)
 
 ### Sample Conversation
-![Chatbot Conversation](Images/chatbot_conversation.png)
+![Chatbot Conversation](Images/chatbot_convo.png)
+
+### Pipeline Methodology
+![Pipeline Methodology](Images/methodology_pipeline.png)
 
 ## 🛠️ Installation
 
